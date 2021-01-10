@@ -99,7 +99,7 @@ public class TravelOffer {
         this.arrive = arrive;
     }
 
-    public Place SgetPlace() {
+    public Place getPlace() {
         return place;
     }
 

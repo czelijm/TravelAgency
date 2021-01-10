@@ -21,10 +21,10 @@ public class Database {
         }
     }
 
-    private Gui gui = new Gui();
-
+    private Gui gui;
     private String url;
     private TravelData travelData;
+    private List records;
 
     public Database(DbUtilityTools dbUtilityTools, String url, TravelData travelData) {
         this.dbUtilityTools = dbUtilityTools;
@@ -36,8 +36,6 @@ public class Database {
         this.dbUtilityTools = dbUtilityTools;
         this.url = url;
     }
-
-
 
     public void create() {
         try {
@@ -57,11 +55,13 @@ public class Database {
 
     public List readDataFromDb()
     {
-       return this.dbUtilityTools.readDataFromDB();
+        records = this.dbUtilityTools.readDataFromDB();
+        return records;
     }
 
-
     public void showGui() {
+        gui = new Gui(records);
         gui.run();
     }
 }
+
