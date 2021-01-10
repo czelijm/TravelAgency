@@ -1,7 +1,9 @@
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
+import java.util.List;
 
 public class Database {
+
     private DbUtilityTools dbUtilityTools;
     {
         try {
@@ -18,6 +20,8 @@ public class Database {
             e.printStackTrace();
         }
     }
+
+    private Gui gui = new Gui();
 
     private String url;
     private TravelData travelData;
@@ -45,5 +49,19 @@ public class Database {
 
     public void drop(){
         dbUtilityTools.dropDataBase();
+    }
+
+    public void readCSVFilesAndCommitToDb(){
+        this.dbUtilityTools.readCSVFilesAndCommitToDb();
+    }
+
+    public List readDataFromDb()
+    {
+       return this.dbUtilityTools.readDataFromDB();
+    }
+
+
+    public void showGui() {
+        gui.run();
     }
 }
