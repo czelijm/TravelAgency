@@ -1,12 +1,21 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.NumberFormatter;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
-import java.util.Arrays;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicReference;
+import java.util.logging.SimpleFormatter;
 
 public class Gui implements WindowListener {
     private static int x = 0;
@@ -18,6 +27,7 @@ public class Gui implements WindowListener {
     private static int paneBound = 10;
 
     private JFrame frame = new JFrame("Offers");
+    JTable table;
     DefaultTableModel model = new DefaultTableModel();
     List dbAsList ;
 
@@ -28,7 +38,7 @@ public class Gui implements WindowListener {
     public void run(){
 
         //prepare table and table's model. Table will be displayed on the window
-        JTable table = new JTable();
+        table = new JTable();
 //        Object[] columns = {null,null,null,null,null,null};
         Object[] columns = {"","","","","",""};
         frame.addWindowListener(this);
@@ -62,7 +72,22 @@ public class Gui implements WindowListener {
         pane.setBounds(paneBound,paneBound,1000 ,300);
         frame.getContentPane().add(pane);
 
-        Object[] row = new Object[6];
+        JComboBox languageBox = new JComboBox();
+        languageBox.addItem("en");
+        languageBox.addItem("pl");
+        languageBox.setBounds(paneBound,y+350,200,25);
+        languageBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                for (int i = table.getRowCount()-1; i > -1 ; i--) {
+                    model.removeRow(i);
+                }
+                var item = languageBox.getSelectedItem().toString();
+                populateTable(item);
+            }
+        });
+        frame.add(languageBox);
 
         //turn on frame (window app)
         frame.setVisible(true);
@@ -70,7 +95,7 @@ public class Gui implements WindowListener {
 
     @Override
     public void windowOpened(WindowEvent e) {
-
+        populateTable("en");
     }
 
     @Override
@@ -95,18 +120,7 @@ public class Gui implements WindowListener {
 
     @Override
     public void windowActivated(WindowEvent e) {
-        try {
-            dbAsList.stream().forEach(m->{
-                TravelOffer t = (TravelOffer) m;
-//                Locale locale = t.getLocale().contains("-")? Locale.forLanguageTag(t.getLocale()): new Locale(t.getLocale());
-               // Object[] arr = {t.getDestinationCountry(),t.getDepartue(),t.getArrive(),t.getPlace(),t.getPrice(), Currency.getInstance(locale).getSymbol()};
-                Object[] arr = {t.getDestinationCountry(),t.getDepartue(),t.getArrive(),t.getPlace(),t.getPrice(), t.getCurrency()};
-                model.addRow(arr);
-            });
-        } catch (Exception ex){
-            ex.printStackTrace();
-        }
-
+        //populateTable("en");
     }
 
     @Override
@@ -114,5 +128,36 @@ public class Gui implements WindowListener {
 
     }
 
+    public void populateTable(String languageCodeString){
+
+        Locale localeToTranslate = new Locale(languageCodeString);
+//        AtomicReference<String> destinationCountry = new AtomicReference<>();
+
+        try {
+            dbAsList.stream().forEach(m->{
+                TravelOffer t = (TravelOffer) m;
+                Locale localeFromTranslate = new Locale(t.getLocale().split("-")[0]);
+
+                String destinationCountry = LocaleUtility.getCountryTranslateFromLocaleToLocale(t.getDestinationCountry(),localeFromTranslate,localeToTranslate);
+                String formattedPrice = LocaleUtility.convertToCurrencyFormat(t.getPrice(),localeFromTranslate,localeToTranslate);
+                String formattedPlace = LocaleUtility.convertPlaceLanguage(t.getPlace().toString(),localeFromTranslate,localeToTranslate);
+
+//                Date formattedDepartue = LocaleUtility.formatDateNoHours(t.getDepartue(),"yyyy-MM-dd");
+//                Date formattedArrival = LocaleUtility.formatDateNoHours(t.getArrive(),"yyyy-MM-dd");
+
+                Object[] arr = {
+                        destinationCountry,
+                        LocaleUtility.formatDateNoHours(t.getDepartue(),"yyyy-MM-dd"),
+                        LocaleUtility.formatDateNoHours(t.getArrive(),"yyyy-MM-dd"),
+                        formattedPlace,
+                        formattedPrice,
+                        t.getCurrency()
+                };
+                model.addRow(arr);
+            });
+        } catch (Exception ex){
+            ex.printStackTrace();
+        }
+    }
 
 }
