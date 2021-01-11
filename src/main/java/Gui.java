@@ -125,7 +125,6 @@ public class Gui implements WindowListener {
 
     @Override
     public void windowDeactivated(WindowEvent e) {
-
     }
 
     public void populateTable(String languageCodeString){

@@ -38,11 +38,17 @@ public class Database {
     }
 
     public void create() {
+        drop();
+        createNew();
+    }
+
+    public void createNew() {
         try {
             dbUtilityTools.createDataBase();
         } catch (Exception throwables) {
             throwables.printStackTrace();
         }
+        readCSVFilesAndCommitToDb();
     }
 
     public void drop(){
@@ -60,6 +66,7 @@ public class Database {
     }
 
     public void showGui() {
+        readDataFromDb();
         gui = new Gui(records);
         gui.run();
     }

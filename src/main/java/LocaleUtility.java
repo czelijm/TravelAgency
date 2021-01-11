@@ -61,5 +61,22 @@ public class LocaleUtility {
         return simpleDateFormat.format(d);
     }
 
+    public static String[] convertStringOfferByLocale(String[] offer,Locale localeToTranslate){
+        Locale localeFromTranslate = new Locale(offer[0].split("-")[0]);
+
+        String destinationCountry = LocaleUtility.getCountryTranslateFromLocaleToLocale(offer[1],localeFromTranslate,localeToTranslate);
+        String formattedPrice = LocaleUtility.convertToCurrencyFormat(offer[5],localeFromTranslate,localeToTranslate);
+        String formattedPlace = LocaleUtility.convertPlaceLanguage(Place.valueOf(offer[4]).toString(),localeFromTranslate,localeToTranslate);
+
+        return new String[]{
+                offer[0],
+                destinationCountry,
+                offer[2],
+                offer[3],
+                formattedPrice,
+                formattedPlace,
+                offer[6]
+        };
+    }
 
 }
