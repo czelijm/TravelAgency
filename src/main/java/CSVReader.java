@@ -48,6 +48,9 @@ public class CSVReader {
 //                System.out.println("Emp[First Name=" + employee[1] + ", Last Name=" + employee[2] + ", Contact=" + employee[3] + ", City= " + employee[4] + "]");
                 lines.add(line.split(splitBy));
             }
+            if (lines.get(lines.size()-1)[0].contains("_")){//change _ to -
+                lines.get(lines.size()-1)[0]=lines.get(lines.size()-1)[0].replace('_','-');
+            }
         }
         catch(IOException e) {
             e.printStackTrace();

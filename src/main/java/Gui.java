@@ -1,10 +1,12 @@
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
+import java.util.Currency;
 import java.util.List;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.util.Arrays;
+import java.util.Locale;
 
 public class Gui implements WindowListener {
     private static int x = 0;
@@ -96,7 +98,9 @@ public class Gui implements WindowListener {
         try {
             dbAsList.stream().forEach(m->{
                 TravelOffer t = (TravelOffer) m;
-                Object[] arr = {t.getDestinationCountry(),t.getDepartue(),t.getArrive(),t.getPlace(),t.getPrice(),t.getCurrency()};
+//                Locale locale = t.getLocale().contains("-")? Locale.forLanguageTag(t.getLocale()): new Locale(t.getLocale());
+               // Object[] arr = {t.getDestinationCountry(),t.getDepartue(),t.getArrive(),t.getPlace(),t.getPrice(), Currency.getInstance(locale).getSymbol()};
+                Object[] arr = {t.getDestinationCountry(),t.getDepartue(),t.getArrive(),t.getPlace(),t.getPrice(), t.getCurrency()};
                 model.addRow(arr);
             });
         } catch (Exception ex){
