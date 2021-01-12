@@ -14,8 +14,18 @@ public class TravelData {
         Locale tmpL = new Locale(locale.split("_")[0]);
         List<String> result = new ArrayList<>();
         x.stream().forEach(m->{
-           var y = LocaleUtility.convertStringOfferByLocale(m,tmpL);
-            result.add(String.join("",y));
+            var y = LocaleUtility.convertStringOfferByLocale(m,tmpL);
+            result.add(String.join(" ",y));
+        });
+        return result;
+    }
+    public List<String[]> getOffersDescriptionsListStringArray(String locale, String dateFormat) {
+        var x = CSVReader.readAllCSVFilesInDirectory(dataDir.getAbsolutePath());
+        Locale tmpL = new Locale(locale.split("_")[0]);
+        List<String[]> result = new ArrayList<>();
+        x.stream().forEach(m->{
+            var y = LocaleUtility.convertStringOfferByLocale(m,tmpL);
+            result.add(y);
         });
         return result;
     }

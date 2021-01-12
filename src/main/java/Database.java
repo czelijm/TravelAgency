@@ -3,11 +3,40 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class Database {
+    private Gui gui;
+    private String url="";
+    private TravelData travelData;
+    private List records;
+
 
     private DbUtilityTools dbUtilityTools;
-    {
+//    {
+//        try {
+//            dbUtilityTools = new DbUtilityTools(url);
+//        } catch (ClassNotFoundException e) {
+//            e.printStackTrace();
+//        } catch (InstantiationException e) {
+//            e.printStackTrace();
+//        } catch (InvocationTargetException e) {
+//            e.printStackTrace();
+//        } catch (NoSuchMethodException e) {
+//            e.printStackTrace();
+//        } catch (IllegalAccessException e) {
+//            e.printStackTrace();
+//        }
+//    }
+
+
+    public Database(DbUtilityTools dbUtilityTools, String url, TravelData travelData) {
+        this.dbUtilityTools = dbUtilityTools;
+        this.url = url;
+        this.travelData = travelData;
+    }
+
+    public Database(String url, TravelData travelData) {
+//        this.dbUtilityTools = dbUtilityTools;
         try {
-            dbUtilityTools = new DbUtilityTools();
+            dbUtilityTools = new DbUtilityTools(url);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (InstantiationException e) {
@@ -19,21 +48,6 @@ public class Database {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-    }
-
-    private Gui gui;
-    private String url;
-    private TravelData travelData;
-    private List records;
-
-    public Database(DbUtilityTools dbUtilityTools, String url, TravelData travelData) {
-        this.dbUtilityTools = dbUtilityTools;
-        this.url = url;
-        this.travelData = travelData;
-    }
-
-    public Database(String url, TravelData travelData) {
-        this.dbUtilityTools = dbUtilityTools;
         this.url = url;
     }
 

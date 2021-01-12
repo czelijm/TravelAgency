@@ -69,12 +69,28 @@ public class LocaleUtility {
         String formattedPlace = LocaleUtility.convertPlaceLanguage(Place.valueOf(offer[4]).toString(),localeFromTranslate,localeToTranslate);
 
         return new String[]{
+                destinationCountry,
+                offer[2],
+                offer[3],
+                formattedPlace,
+                formattedPrice,
+                offer[6]
+        };
+    }
+    public static String[] convertStringOfferByLocaleWithLocaleInfo(String[] offer,Locale localeToTranslate){
+        Locale localeFromTranslate = new Locale(offer[0].split("-")[0]);
+
+        String destinationCountry = LocaleUtility.getCountryTranslateFromLocaleToLocale(offer[1],localeFromTranslate,localeToTranslate);
+        String formattedPrice = LocaleUtility.convertToCurrencyFormat(offer[5],localeFromTranslate,localeToTranslate);
+        String formattedPlace = LocaleUtility.convertPlaceLanguage(Place.valueOf(offer[4]).toString(),localeFromTranslate,localeToTranslate);
+
+        return new String[]{
                 offer[0],
                 destinationCountry,
                 offer[2],
                 offer[3],
-                formattedPrice,
                 formattedPlace,
+                formattedPrice,
                 offer[6]
         };
     }

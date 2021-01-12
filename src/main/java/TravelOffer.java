@@ -67,6 +67,27 @@ public class TravelOffer {
         this.currency = args[6];
     }
 
+    public TravelOffer(String[] args, String pattern) {
+        Date dateD = null;
+        Date dateA = null;
+        try {
+            dateD = new SimpleDateFormat(pattern).parse(args[2]);
+            dateA = new SimpleDateFormat(pattern).parse(args[3]);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        this.locale = args[0];
+        this.destinationCountry = args[1];
+        this.departue = dateD;
+        this.arrive = dateA;
+//        this.place = args[0].substring(0,2).toLowerCase().equals("pl")?
+//                PlacePL.valueOf(args[4]):PlaceEN.valueOf(args[4]);
+        this.place = Place.valueOf(args[4]);
+        this.price = args[5];
+        this.currency = args[6];
+    }
+
     public String getLocale() {
         return locale;
     }

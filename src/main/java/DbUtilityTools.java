@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 public class DbUtilityTools {
     public final String JDBC_Driver;
@@ -26,6 +25,9 @@ public class DbUtilityTools {
 
     public DbUtilityTools() throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
         this("com.mysql.cj.jdbc.Driver","jdbc:mysql://localhost:3306/","root","Buster");
+    }
+    public DbUtilityTools(String url) throws ClassNotFoundException, InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        this("com.mysql.cj.jdbc.Driver",url,"root","Buster");
     }
 
     public Connection connectToDb() throws SQLException {
@@ -61,10 +63,24 @@ public class DbUtilityTools {
 
 
     public void readCSVFilesAndCommitToDb(){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+
+
+        Map<String, String> persistenceMap = new HashMap<String, String>();
+        persistenceMap.put("javax.persistence.jdbc.url", DB_URL+dbName);
+//        persistenceMap.put("javax.persistence.jdbc.user", "<username>");
+//        persistenceMap.put("javax.persistence.jdbc.password", "<password>");
+//        persistenceMap.put("javax.persistence.jdbc.driver", "<driver>");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT, persistenceMap);
 
         //Read csv files
         var result = CSVReader.readAllCSVFilesInDirectory(dirDirectoryString);
+
+        List<String[]> processedList = new LinkedList<>();
+
+//        result.stream().forEach(m->{
+//           processedList.add(LocaleUtility.convertStringOfferByLocaleWithLocaleInfo(m,new Locale("en")) );
+//        });
 
         List<TravelOffer> listToPersist = new LinkedList<>();
         for (var item: result) {
@@ -85,7 +101,14 @@ public class DbUtilityTools {
     }
 
     public List readDataFromDB(){
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+//        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT);
+
+        Map<String, String> persistenceMap = new HashMap<String, String>();
+        persistenceMap.put("javax.persistence.jdbc.url", DB_URL+dbName);
+//        persistenceMap.put("javax.persistence.jdbc.user", "<username>");
+//        persistenceMap.put("javax.persistence.jdbc.password", "<password>");
+//        persistenceMap.put("javax.persistence.jdbc.driver", "<driver>");
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT, persistenceMap);
 
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         //begin transaction

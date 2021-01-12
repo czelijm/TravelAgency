@@ -9,7 +9,8 @@
             <property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
 <!--            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/classicmodels"/>-->
 <!--            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/TravelAgency"/>-->
-            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/TEST1"/>
+<!--            <property name="hibernate.connection.url" value="jdbc:mysql://localhost:3306/TEST1"/>-->
+            <property name="hibernate.connection.url" value="!!!!!!!!!!!!!!!!!!!!!!!SettedDynamicly!!!!!!!!!!!!!!!!!"/>
             <property name="hibernate.connection.autocommit" value="false"/>
             <property name="hibernate.connection.username" value="root"/>
             <property name="hibernate.connection.password" value="Buster"/>
