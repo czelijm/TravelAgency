@@ -30,6 +30,7 @@ public class Gui implements WindowListener {
     JTable table;
     DefaultTableModel model = new DefaultTableModel();
     List dbAsList ;
+    public String dateFormat = "yyyy-MM-dd";
 
     public Gui(List dbAsList) {
         this.dbAsList = dbAsList;
@@ -146,8 +147,8 @@ public class Gui implements WindowListener {
 
                 Object[] arr = {
                         destinationCountry,
-                        LocaleUtility.formatDateNoHours(t.getDepartue(),"yyyy-MM-dd"),
-                        LocaleUtility.formatDateNoHours(t.getArrive(),"yyyy-MM-dd"),
+                        LocaleUtility.formatDateNoHours(t.getDepartue(),dateFormat),
+                        LocaleUtility.formatDateNoHours(t.getArrive(),dateFormat),
                         formattedPlace,
                         formattedPrice,
                         t.getCurrency()
